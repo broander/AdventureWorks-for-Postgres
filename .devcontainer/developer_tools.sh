@@ -19,7 +19,7 @@ cd ~ || exit
 #git init --bare "$HOME"/.cfg
 # clone dotfiles repository
 # repo is private, so url includes github PAT token
-git clone --bare https://broander/dotfiles.git "$HOME"/.cfg
+git clone --bare https://github.com/broander/dotfiles.git "$HOME"/.cfg
 #moved next command to postCreateCommand commands so config is defined prior to running the alias below
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 config config --local status.showUntrackedFiles no
