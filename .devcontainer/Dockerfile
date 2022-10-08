@@ -22,11 +22,12 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 # install firefox
-RUN apt-get update && export DEBIAN_FRONTEND=noninteractive && apt-get install -y firefox-esr
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive && apt-get install -y firefox-esr \
+    && apt-get autoremove -y && apt-get clean -y
 
 # # Create custom user
 # in build process vscode user is already created
-ARG USERNAME=vscode
+#ARG USERNAME=vscode
 # ARG USER_UID=1000
 # ARG USER_GID=$USER_UID
 
@@ -43,6 +44,28 @@ ARG USERNAME=vscode
 # ********************************************************
 # * Anything else you want to do like clean up goes here *
 # ********************************************************
+
+WORKDIR "/home/vscode"
+
+# copied from the forked repo's docker file
+FROM library/postgres
+
+RUN apt-get update
+RUN apt-get -y install unzip ruby dos2unix
+
+RUN mkdir /data
+COPY install.sql /data/
+COPY update_csvs.rb /data/
+COPY adventure_works_2014_OLTP_script.zip /data/
+RUN cd /data && \
+    unzip adventure_works_2014_OLTP_script.zip && \
+    rm adventure_works_2014_OLTP_script.zip && \
+    ruby update_csvs.rb && \
+    rm update_csvs.rb && \
+    apt-get autoremove -y && apt-get clean -y
+
+COPY install.sh /docker-entrypoint-initdb.d/
+RUN dos2unix /docker-entrypoint-initdb.d/*.sh
 
 # [Optional] Set the default user. Omit if you want to keep the default as root.
 # This lets you set the context to be the user for further installation
