@@ -48,8 +48,6 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive && apt-get install -
 WORKDIR "/home/vscode"
 
 # copied from the forked repo's docker file
-FROM library/postgres
-
 RUN apt-get update
 RUN apt-get -y install unzip ruby dos2unix
 
