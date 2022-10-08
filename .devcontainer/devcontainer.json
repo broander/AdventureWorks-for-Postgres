@@ -108,13 +108,13 @@
 	"remoteUser": "vscode",
 	"features": {
 		"github-cli": {
-			"latest"
+			"veresion": "latest"
 		},
 		"sshd": {
-			"latest"
+			"version": "latest"
 		},
-		"desktop-lite": {
-			"latest"
-		},
+		// "desktop-lite": {
+		// 	"version": "latest"
+		// },
 	}
 }
