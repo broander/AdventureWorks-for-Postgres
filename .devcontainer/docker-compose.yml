@@ -1,7 +1,9 @@
-version: '2'
+version: '3.8'
 services:
   db:
-    build: ./
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
