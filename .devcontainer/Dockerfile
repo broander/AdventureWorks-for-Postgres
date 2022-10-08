@@ -3,9 +3,8 @@
 FROM mcr.microsoft.com/vscode/devcontainers/anaconda:0-3
 
 # [Choice] Node.js version: none, lts/*, 16, 14, 12, 10
-# this is failing.......
-#ARG NODE_VERSION="none"
-#RUN if [ "${NODE_VERSION}" != "none" ]; then su vscode -c "umask 0002 && . /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"; fi
+ARG NODE_VERSION="lts/*"
+RUN if [ "${NODE_VERSION}" != "none" ]; then su vscode -c "umask 0002 && . /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"; fi
 
 # Copy environment.yml (if found) to a temp location so we update the environment. Also
 # copy "noop.txt" so the COPY instruction does not fail if no environment.yml exists.
@@ -22,8 +21,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 # install firefox
-# RUN apt-get update && export DEBIAN_FRONTEND=noninteractive && apt-get install -y firefox-esr \
-#     && apt-get autoremove -y && apt-get clean -y
+#RUN apt-get update && export DEBIAN_FRONTEND=noninteractive && apt-get install -y firefox-esr
 
 # # Create custom user
 # in build process vscode user is already created

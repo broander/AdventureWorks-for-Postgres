@@ -1,15 +1,14 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.245.2/containers/python-3-anaconda
 {
-	"name": "AdventureWorks-for-Postgres",
-	// Update the 'dockerComposeFile' list if you have more compose files or use different names.
-	// "dockerComposeFile": "docker-compose.yml",
-	// The 'service' property is the name of the service for the container that VS Code should
-	// use. Update this value and .devcontainer/docker-compose.yml to the real service name.
-	"service": "app",
-	// The 'workspaceFolder' property is the path VS Code should open by default when
-	// connected. Corresponds to a volume mount in .devcontainer/docker-compose.yml
-	"workspaceFolder": "/workspace",
+	"name": "Anaconda (Python 3)",
+	"build": {
+		"context": "..",
+		"dockerfile": "Dockerfile",
+		"args": {
+			"NODE_VERSION": "lts/*"
+		}
+	},
 	// Configure tool-specific properties.
 	"customizations": {
 		// Configure properties specific to VS Code.
@@ -99,8 +98,7 @@
 	},
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [
-		6080, // port for accessing fluxbox desktop
-		5432
+		6080 // port for accessing fluxbox desktop
 	],
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "chmod +x ./.devcontainer/developer_tools.sh && bash -i ./.devcontainer/developer_tools.sh",
@@ -110,14 +108,14 @@
 		"ghcr.io/devcontainers/features/github-cli": {
 			"version": "latest"
 		},
-		"ghcr.io/devcontainers/features/sshd": {
-			"version": "latest"
-		},
+		// "ghcr.io/devcontainers/features/sshd": {
+		// 	"version": "latest"
+		// },
 		// "ghcr.io/devcontainers/features/desktop-lite": {
 		// 	"version": "latest"
 		// },
-		"ghcr.io/devcontainers/features/docker-in-docker": {
-			"version": "latest"
-		},
+		// "ghcr.io/devcontainers/features/docker-in-docker": {
+		// 	"version": "latest"
+		// },
 	}
 }
