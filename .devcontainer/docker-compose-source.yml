@@ -1,8 +1,0 @@
-version: '3.8'
-services:
-  db:
-    build:
-      context: ..
-      dockerfile: .devcontainer/Dockerfile
-    ports:
-      - '5432:5432'
