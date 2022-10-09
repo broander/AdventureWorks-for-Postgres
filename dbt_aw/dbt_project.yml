@@ -8,4 +8,4 @@ profile: "adventure_works"
 
 models:
   adventure_works:
-    +materialized: table
+    +materialized: view
