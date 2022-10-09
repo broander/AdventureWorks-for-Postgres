@@ -2,8 +2,6 @@ SELECT
     person.firstname AS firstname,
     person.lastname AS lastname,
     person.persontype AS persontype,
-    person.businessentityid,
-    lookup.addressid,
     addy.postalcode AS postalcode,
     addy.city AS city,
     st.name AS state,
@@ -41,3 +39,5 @@ FROM
         person.emailaddress AS email
     ON
         person.businessentityid = email.businessentityid
+WHERE
+    lookup.addressid is not null

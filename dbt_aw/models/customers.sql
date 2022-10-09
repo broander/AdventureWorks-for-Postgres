@@ -1,44 +1,93 @@
-WITH
-    customers AS (
+WITH customers AS (
 
     SELECT
-        person.firstname AS firstname,
-        person.lastname AS lastname,
-        address.postalcode AS postalcode,
-        address.city AS city,
-        state.name AS state,
+        person.businessentityid AS customer_id,
+        person.firstname AS first_name,
+        person.lastname AS last_name,
+        person.persontype AS person_type,
+        addy.postalcode AS postal_code,
+        addy.city AS city,
+        st.name AS state,
         country.name AS country,
         email.emailaddress AS email
     FROM
         sales.customer AS customer
         --
         LEFT OUTER JOIN
-            person.person as person
+            person.person AS person
         ON
             customer.personid = person.businessentityid
         --
         LEFT OUTER JOIN
-            businessentityaddress AS addresslookup
+            person.businessentityaddress AS lookup
         ON
-            person.businessentityid = addresslookup.businessentityid
+            person.businessentityid = lookup.businessentityid
         --
         LEFT OUTER JOIN
-            person.address AS address
+            person.address AS addy
         ON
-            addresslookup.addressid = address.addressid
+            lookup.addressid = addy.addressid
         --
         LEFT OUTER JOIN
-            person.stateprovince AS state
+            person.stateprovince AS st
         ON
-            address.stateprovinceid = state.stateprovinceid
+            addy.stateprovinceid = st.stateprovinceid
         --
         LEFT OUTER JOIN
-            countryregion AS country
+            person.countryregion AS country
         ON
-            state.countryregioncode = country.countryregioncode
+            st.countryregioncode = country.countryregioncode
         --
         LEFT OUTER JOIN
-            emailaddress AS email
+            person.emailaddress AS email
         ON
             person.businessentityid = email.businessentityid
-    )
+
+),
+
+orders AS (
+
+    SELECT
+        sales.salesorderid AS order_id,
+        customerid AS customer_id,
+        orderdate AS order_date,
+        status
+    FROM
+        sales.salesorderheader AS sales
+),
+
+customer_orders AS (
+
+    SELECT
+        customer_id,
+        min(order_date) AS first_order_date,
+        max(order_date) AS most_recent_order_date,
+        count(order_id) AS number_of_orders
+    FROM
+        orders
+    GROUP BY
+        1
+
+),
+
+final AS (
+
+    SELECT
+        customers.customer_id,
+        customers.first_name,
+        customers.last_name,
+        customer_orders.first_order_date,
+        customer_orders.most_recent_order_date,
+        coalesce(customer_orders.number_of_orders, 0) AS number_of_orders
+    FROM
+        customers
+        --
+        LEFT OUTER JOIN
+            customer_orders USING (customer_id)
+
+)
+
+SELECT
+    *
+FROM
+    final
