@@ -1,3 +1,10 @@
 # dbt project file
 name: "adventure_works"
+
+config-version: 2
+version: 1.0.0
+
 profile: "adventure_works"
+
+models:
+  adventure_works:

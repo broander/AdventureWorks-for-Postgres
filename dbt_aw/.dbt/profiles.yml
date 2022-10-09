@@ -1,4 +1,4 @@
-# profiles.yml file
+# example profiles.yml file
 adventure_works:
   target: dev
   outputs:
@@ -10,4 +10,13 @@ adventure_works:
       port: 5432
       dbname: Adventureworks
       schema: analytics
+      threads: 4
+    prod:
+      type: postgres
+      host:
+      user:
+      password:
+      port:
+      dbname:
+      schema:
       threads: 4
