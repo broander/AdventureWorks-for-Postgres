@@ -1,0 +1,13 @@
+# profiles.yml file
+adventure_works:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: localhost
+      user: postgres
+      password: postgres
+      port: 5432
+      dbname: Adventureworks
+      schema: analytics
+      threads: 4

@@ -1,0 +1,3 @@
+# dbt project file
+name: "adventure_works"
+profile: "adventure_works"

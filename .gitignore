@@ -147,3 +147,6 @@ envs/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+
+# dbt related exclusions
+#.dbt/
