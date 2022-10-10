@@ -6,6 +6,7 @@ WITH addy AS (
 
 SELECT
     customer.customerid AS customer_id,
+    person.businessentityid AS person_id,
     person.firstname AS first_name,
     person.lastname AS last_name,
     person.persontype AS person_type,
