@@ -1,12 +1,6 @@
-WITH main_address AS (
+WITH addy AS (
 
-    SELECT
-        businessentityid AS customer_id,
-        min(addressid) AS main_address_id
-    FROM
-        person.businessentityaddress
-    GROUP BY
-        1
+    SELECT * FROM {{ ref('stg_addresses') }}
 
 )
 
@@ -15,11 +9,11 @@ SELECT
     person.firstname AS first_name,
     person.lastname AS last_name,
     person.persontype AS person_type,
-    addy.postalcode AS postal_code,
+    email.emailaddress AS email,
+    addy.postal_code AS postal_code,
     addy.city AS city,
-    st.name AS state,
-    country.name AS country,
-    email.emailaddress AS email
+    addy.state AS state,
+    addy.state AS country
 FROM
     sales.customer AS customer
     --
@@ -29,31 +23,11 @@ FROM
         customer.personid = person.businessentityid
     --
     LEFT OUTER JOIN
-        person.businessentityaddress AS lookup
-    ON
-        person.businessentityid = lookup.businessentityid
-    --
-    LEFT OUTER JOIN
-        main_address
-    ON
-        lookup.addressid = main_address.main_address_id
-    --
-    LEFT OUTER JOIN
-        person.address AS addy
-    ON
-        lookup.addressid = addy.addressid
-    --
-    LEFT OUTER JOIN
-        person.stateprovince AS st
-    ON
-        addy.stateprovinceid = st.stateprovinceid
-    --
-    LEFT OUTER JOIN
-        person.countryregion AS country
-    ON
-        st.countryregioncode = country.countryregioncode
-    --
-    LEFT OUTER JOIN
         person.emailaddress AS email
     ON
         person.businessentityid = email.businessentityid
+    --
+    LEFT OUTER JOIN
+        addy
+    ON
+        person.businessentityid = addy.person_id
